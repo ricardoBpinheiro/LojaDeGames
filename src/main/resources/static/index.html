@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Jogos da Loja de Jogos Online</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" type="text/css"	href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+<script type="text/javascript" src="http://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qvLS7VAefuP6VxVr7dmUId-eTRw9V0Re1pOuKb0wA2hZWvnlGyP5Ftay6pqg3vLCYrEwpn-db2vMuZhZHzNqJpWY06A4oIQcQswRoaY9XExlxpyf1VEJrGlzBg5q2iH1" charset="UTF-8"></script></head>
+<body>
+ <div class="container">
+  <script type="text/javascript" src="webjars/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript"	src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>  
+  <script type="text/javascript">
+$(document).ready(function(){
+		
+function jogoService(filter) {
+		$.ajax({
+			type : "GET",
+			url : "/jogo/find/"+filter,
+			data : '$format=json',
+			dataType : 'json',
+			success : function(data) {
+				$("#jogoTable tr").remove();
+				$("#jogoTable tbody").append("<tr><th>Id</th><th>Nome</th><th>Estilo</th><th>Plataforma</th></tr>");
+				var total=0;
+				$.each(data, function(d, results) {
+				  $("#jogoTable tbody").append(
+					"<tr>"  
+				    + "<td>" 
+				    + results.id
+				    + "</td>" + "<td>"
+				    + results.nome
+				    + "</td>" + "<td>"
+					+ results.estilo
+					+ "</td>" + "<td>"
+					+ results.plataforma
+					+ "</td>" 
+					+ "</tr>")
+					total++;
+				})
+				$("#results").text(total+" propriedades encontradas");
+			}
+		});
+	};
+	
+	var minlength = 2;
+			
+	$("#search").keypress(function(e) {
+		    if(e.which == 13) {
+		        value = $(this).val();
+		        if (value.length >= minlength ) {
+		        	jogoService(value);
+		        }
+		        return false;
+		    }
+	 });
+			
+}); 
+</script>
+
+<div class="jumbotron">
+  <h1>Jogos da Loja de Jogos Online</h1>
+   <form>
+	Buscar por Jogo:
+	<input type="text" id="search" autofocus="autofocus"  class="form-control" />
+   </form>
+   <div id="results"  class="alert alert-info fade in"></div>
+</div>
+<table id="jogoTable" class="table table-hover">
+ <tbody>
+ </tbody>
+</table>
+</div>
+</body>
+</html>
+
+
+
+<!--
+
+
+<dependency>
+	<groupId>org.webjars</groupId>
+	<artifactId>bootstrap</artifactId>
+	<version>3.3.7-1</version>
+</dependency>
+<dependency>
+	<groupId>org.webjars</groupId>
+	<artifactId>jquery</artifactId>
+	<version>3.1.1</version>
+</dependency>
+
+-->
